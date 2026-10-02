@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"runtime"
 )
 
 func main() {
@@ -22,7 +23,8 @@ func main() {
 		}
 
 		log.Printf("connection accepted from %s", conn.RemoteAddr())
-		handleConnection(conn)
+		go handleConnection(conn)
+		log.Printf("number of goroutines: %d", runtime.NumGoroutine())
 	}
 }
 
