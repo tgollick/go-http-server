@@ -14,12 +14,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Printf("connection opened on port :8080")
+	log.Printf("accepting connections on port :8080")
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
 			log.Print(err)
+			continue
 		}
 
 		log.Printf("connection accepted from %s", conn.RemoteAddr())
@@ -31,8 +32,9 @@ func main() {
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
 
+	buffer := make([]byte, 1024)
+
 	for {
-		buffer := make([]byte, 1024)
 
 		bytesRead, err := conn.Read(buffer)
 
